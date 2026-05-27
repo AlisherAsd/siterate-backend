@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi_users import FastAPIUsers
 from app.logger import logger
+from fastapi.middleware.cors import CORSMiddleware
 
 from sqlalchemy.ext.asyncio import AsyncEngine
 from app.helpers import create_superuser_if_not_exists
@@ -66,3 +67,16 @@ app.include_router(
 )
 
 app.include_router(app_router)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+        "http://localhost:5173",
+        "http://localhost:8080",
+        "http://localhost:8000",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
